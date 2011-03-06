@@ -1,10 +1,10 @@
 /*
  * superstartrek.js
  *
- * Javascript Super Star Trek v0.x
+ * Javascript Super Star Trek v0.2(ish)
  *
  * Port of classic 1970s BASIC computer game.
- * Javascript port Copyright (C) 2009 Roberto Nerici
+ * Javascript port Copyright (C) 2009-2011 Roberto Nerici
  * based on C port Copyright (C) 1996 Chris Nystrom
  * 
  * This program is free software; you can redistribute it and/or modify
@@ -351,14 +351,14 @@ function initialize()
   k7 = k9;
 
   printf("Your orders are as follows:\n\n");
-  printf("   Destroy the " + k9 + " Klingon warships which have invaded\n");
+  printf("   Destroy the ", k9, " Klingon warships which have invaded\n");
   printf("   the galaxy before they can attack Federation Headquarters\n");
-  printf("   on stardate " + (t0 + t9) + ". This gives you " + t9 + " days.\n");
+  printf("   on stardate ", t0 + t9, ". This gives you " + t9 + " days.\n");
   if (b9 == 1) {
       printf("   There is 1 starbase in the galaxy for resupplying your ship.\n\n");
   }
   else if (b9 > 1) {
-      printf("   There are " + b9 + " starbases in the galaxy for resupplying your ship.\n\n");
+      printf("   There are ", b9, " starbases in the galaxy for resupplying your ship.\n\n");
   }
 }
 
@@ -378,12 +378,12 @@ function new_quadrant()
       var sG2 = quadrant_name();    // C->JS: was done with global variable
 
       if (t0 != t) {
-        printf("Now entering " + sG2 + " quadrant...\n\n");
+	  printf("Now entering ", sG2, " quadrant...\n\n");
       }
       else 
         {
           printf("\nYour mission begins with your starship located\n");
-          printf("in the galactic quadrant " + sG2 + ".\n\n");
+          printf("in the galactic quadrant ", sG2, ".\n\n");
         }
     }
 
@@ -531,7 +531,7 @@ function course_control3(sTemp)
   if (w1 > 8.1)
     {
       printf("Chief Engineer Scott reports:\n");
-      printf("  The engines won't take warp " + w1 + "!\n\n");
+      printf("  The engines won't take warp ", w1, "!\n\n");
       return;
     }
 
@@ -541,12 +541,12 @@ function course_control3(sTemp)
     {
       printf("Engineering reports:\n");
       printf("  Insufficient energy available for maneuvering");
-      printf("  at warp " + w1 + "!\n\n");
+      printf("  at warp ", w1, "!\n\n");
 
       if (s >= n && d[7] >= 0.0)
         {
           printf("Deflector Control Room acknowledges:\n");
-          printf("  " + s + " units of energy presently deployed to shields.\n");
+          printf("  ", s, " units of energy presently deployed to shields.\n");
         }
 
       return;
@@ -598,7 +598,7 @@ function course_control3(sTemp)
           s1 = s1 - x1;
           s2 = s2 - x2;
           printf("Warp Engines shut down at sector ");
-          printf(z1 + ", " + z2 + " due to bad navigation.\n\n");
+          printf(z1, ", ", z2, " due to bad navigation.\n\n");
           i = n + 1;
         }
     }
@@ -703,9 +703,9 @@ function exceed_quadrant_limits()
       printf("  is hereby *denied*. Shut down your engines.\n\n");
       printf("Chief Engineer Scott reports:\n");
       /* @@@ printf("  Warp Engines shut down at sector %d, ", cint(s1)); */
-      printf("  Warp Engines shut down at sector ", cint(s1) + ", ");
+      printf("  Warp Engines shut down at sector ", cint(s1), ", ");
       /* @@@ printf("%d of quadrant %d, %d.\n\n", cint(s2), q1, q2); */
-      printf(cint(s2) + " of quadrant " + q1 + ", " + q2 + ".\n\n");
+      printf(cint(s2)," of quadrant ", q1, ", ", q2, ".\n\n");
     }
   /* else 
      new_quadrant(); @@@ this causes bugs when bouncing off galaxy walls.
@@ -748,6 +748,7 @@ function maneuver_energy()
 function short_range_scan()
 {
   var sC = "GREEN";
+  var mapLine = "";
 
   if (e < e0 * .1)
     sC = "YELLOW";
@@ -787,26 +788,28 @@ function short_range_scan()
   printf("------------------------\n");
   for (i = 0; i < 8; i++)
   {
+      mapLine = "";
     for (j = 0; j < 24; j++) {
-      putchar(sQ[i * 24 + j]); 
+	mapLine += sQ[i * 24 + j]; // C->JS: was putchar(sQ[i * 24 + j]); 
     }
+    printf(mapLine);
 
     if (i == 0)
-      printf("    Stardate            " + t + "\n");
+	printf("    Stardate            ", t, "\n");
     if (i == 1)
-      printf("    Condition           " + sC + "\n");
+	printf("    Condition           ", sC, "\n");
     if (i == 2)
-      printf("    Quadrant            " + q1 + "," + q2 + "\n");
+	printf("    Quadrant            ", q1, ",", q2, "\n");
     if (i == 3)
-      printf("    Sector              " + s1 + "," + s2 + "\n");
+	printf("    Sector              ", s1, ",", s2, "\n");
     if (i == 4)
-      printf("    Photon Torpedoes    " + p + "\n");
+	printf("    Photon Torpedoes    ", p, "\n");
     if (i == 5)
-      printf("    Total Energy        " + (e + s) + "\n");
+	printf("    Total Energy        ", (e + s), "\n");
     if (i == 6)
-      printf("    Shields             " + s + "\n");
+	printf("    Shields             ", s, "\n");
     if (i == 7)
-      printf("    Klingons Remaining  " + k9 + "\n");
+	printf("    Klingons Remaining  ", k9, "\n");
   }
   printf("------------------------\n\n");
 
@@ -822,7 +825,7 @@ function long_range_scan()
       return;
     }
 
-  printf("Long Range Scan for Quadrant " + q1 + ", " + q2 + "\n\n");
+  printf("Long Range Scan for Quadrant ", q1, ", ", q2, "\n\n");
 
   for (i = q1 - 1; i <= q1 + 1; i++)
     {
@@ -831,7 +834,7 @@ function long_range_scan()
         if (i > 0 && i <= 8 && j > 0 && j <= 8)
           {
             z[i][j] = g[i][j];
-            printf(" " + pad_zero(z[i][j], 3) + " :");
+            printf(" ", pad_zero(z[i][j], 3), " :");
 //            printf(" " + "000" + " :");
           }
         else
@@ -862,7 +865,7 @@ function phaser_control()
     printf("Computer failure hampers accuracy.\n");
 
   printf("Phasers locked on target;\n");
-  printf("Energy available = " + e + " units\n\n");
+  printf("Energy available = ", e, " units\n\n");
 
   // Set state and wait for user input
   set_commandhandler(phaser_control2, "Number of units to fire:");
@@ -902,14 +905,14 @@ function phaser_control2(sTemp)
           
           if (h <= .15 * k[i][3])
             {
-              printf("Sensors show no damage to enemy at " + 
-                    k[i][1] + ", " + k[i][2] + "\n\n");
+		printf("Sensors show no damage to enemy at ", 
+		       k[i][1], ", ", k[i][2], "\n\n");
             }
           else
             {
               k[i][3] = k[i][3] - h;
-              printf(h + " unit hit on Klingon at sector " + 
-                    k[i][1] + ", " + k[i][2] + "\n");
+              printf(h, " unit hit on Klingon at sector ", 
+		     k[i][1], ", ", k[i][2], "\n");
               if (k[i][3] <= 0)
                 {
                   printf("*** Klingon Destroyed ***\n\n");
@@ -926,7 +929,7 @@ function phaser_control2(sTemp)
                 }
               else
                 /* @@@ printf("\n"); */
-                printf("   (Sensors show " + k[i][3] + " units remaining)\n\n");
+		  printf("   (Sensors show ", k[i][3], " units remaining)\n\n");
             }
         }
     }
@@ -994,7 +997,7 @@ function photon_torpedoes2(input)
 
   while (x3 >= 1 && x3 <= 8 && y3 >= 1 && y3 <= 8)
     {
-      printf("    " + x3 + ", " + y3 + "\n");
+	printf("    ", x3, ", ", y3, "\n");
 
       z1 = x3;
       z2 = y3;
@@ -1025,7 +1028,7 @@ function torpedo_hit()
 
   if (string_compare(" * ") == 1)
     {
-      printf("Star at " + x3 + ", " + y3 + "absorbed torpedo energy.\n\n");
+	printf("Star at ", x3,  ", ", y3 + "absorbed torpedo energy.\n\n");
       return;
     }
 
@@ -1097,7 +1100,7 @@ function damage_control()
 
       printf("\nTechnicians standing by to effect repairs to your");
       /* @@@ printf("ship; Will you authorize the repair order (Y/N)? "); */
-      printf("ship;\nEstimated time to repair: " + d3 + " stardates.\n");
+      printf("ship;\nEstimated time to repair: ", d3, " stardates.\n");
       printf("Will you authorize the repair order (Y/N)? ");
 
       // TODO!
@@ -1125,7 +1128,7 @@ function damage_control()
       printf(" ");
       /* @@@ printf("%4.1f\n", d[r1]); */
 //      printf("%4.2f\n", d[r1]);
-      printf(d[r1] + "\n");
+      printf(d[r1], "\n");
     }
 
   printf("\n");
@@ -1139,7 +1142,7 @@ function sheild_control()
       return;
     }
 
-  printf("Energy available = " + (e + s) + "\n\n");
+  printf("Energy available = ", (e + s), "\n\n");
 
 //  printf("Input number of units to shields: ");
   
@@ -1149,31 +1152,31 @@ function sheild_control()
 
 function sheild_control2(input)
 {
-  reset_commandhandler();
+    reset_commandhandler();
 
-  printf("\n");
+    printf("\n");
 
-  var i = parseInt(input);
+    var i = parseInt(input);
 
-  if (i < 0 || s == i)
+    if (isNaN(i) || i < 0 || s == i)
     {
-      printf("<Sheilds Unchanged>\n\n");
-      return;
+         printf("[Sheilds Unchanged]\n\n");
+         return;
     }
 
-  if (i >= e + s)
+    if (i >= e + s)
     {
-      printf("Sheild Control Reports:\n");
-      printf("  'This is not the Federation Treasury.'\n");
-      printf("<Sheilds Unchanged>\n\n");
-      return;
+        printf("Sheild Control Reports:\n");
+        printf("  'This is not the Federation Treasury.'\n");
+        printf("[Sheilds Unchanged]\n\n");
+        return;
     }
 
-  e = e + s - i;
-  s = i;
+    e = e + s - i;
+    s = i;
 
-  printf("Deflector Control Room report:\n");
-  printf("  'Shields now at " + s + " units per your command.'\n\n");
+    printf("Deflector Control Room report:\n");
+    printf("  'Shields now at ", s, " units per your command.'\n\n");
 }
 
 function library_computer()
@@ -1223,7 +1226,7 @@ function library_computer2(sTemp)
 function galactic_record()
 {
 //  printf("\n     Computer Record of Galaxy for Quadrant %d,%d\n\n", q1, q2);
-  printf("\n     Computer Record of Galaxy for Quadrant " + q1 + "," + q2 + "\n\n");
+    printf("\n     Computer Record of Galaxy for Quadrant ", q1, ",", q2, "\n\n");
   printf("     1     2     3     4     5     6     7     8\n");
 
   for (i = 1; i <= 8; i++)
@@ -1261,7 +1264,7 @@ function galaxy_map()
   {
     printf("  ----- ----- ----- ----- ----- ----- ----- -----\n");
 
-    printf(" " + i);
+    printf(" ", i);
 
     z4 = i;
     z5 = 1;
@@ -1301,12 +1304,10 @@ function status_report()
   printf("\nStatus Report:\n");
 
   if (k9 > 1)
-      printf("    Klingons Left: " + k9 + "\n", k9);
+      printf("    Klingons Left: ", k9, "\n");
 
   /* @@@ .1 * cint((t0 + t9 - t) * 10)); */
-  printf("    Mission must be completed in " + 
-    0.1 * Math.floor(((t0 + t9 - t) * 10)) + 
-    " stardates\n");
+  printf("    Mission must be completed in ", 0.1 * Math.floor(((t0 + t9 - t) * 10)), " stardates\n");
 
   if (b9 < 1)
   {
@@ -1319,7 +1320,7 @@ function status_report()
         printf("    The Federation is maintaining 1 starbase in the galaxy\n");
         }
      else {
-        printf("    The Federation is maintaining " + b9 + " starbases in the galaxy\n");
+	 printf("    The Federation is maintaining ", b9, " starbases in the galaxy\n");
      }
   }
 
@@ -1380,8 +1381,8 @@ function dirdist_calc()
 {
   printf("\nDirection/Distance Calculator\n");
 //  printf("You are at quadrant %d,%d sector %d,%d\n\n", q1, q2,
-  printf("You are at quadrant " + q1 + "," + q2 + 
-    " sector " + Math.floor(s1) + "," + Math.floor(s2) + "\n\n");
+  printf("You are at quadrant ", q1, ",", q2, 
+	 " sector ", Math.floor(s1), ",", Math.floor(s2), "\n\n");
     
 //  printf("Please enter initial X coordinate: \n");
 
@@ -1474,13 +1475,13 @@ function sub1()
   
   if (a <= x)
 //    printf("  DIRECTION = %4.2f\n", c1 + (a / x));
-    printf("  DIRECTION = " + (c1 + (a / x)) + "\n");
+      printf("  DIRECTION = ", (c1 + (a / x)), "\n");
   else
 //    printf("  DIRECTION = %4.2f\n", c1 + (((a * 2) - x) / a));
-    printf("  DIRECTION = " + (c1 + (((a * 2) - x) / a)) + "\n");
+      printf("  DIRECTION = ", (c1 + (((a * 2) - x) / a)), "\n");
 
 //  printf("  DISTANCE = %4.2f\n\n", (x > a) ? x : a);
-  printf("  DISTANCE = " + ((x > a) ? x : a) + "\n\n");
+  printf("  DISTANCE = ", ((x > a) ? x : a), "\n\n");
 }
 
 /* Used as part of vector calculator (e.g. torpedo) functions. */
@@ -1490,13 +1491,13 @@ function sub2()
   a = Math.abs(a);
 
   if (a >= x)
-    printf("  DIRECTION = " + (c1 + (x / a)) + "\n");
+      printf("  DIRECTION = ", (c1 + (x / a)), "\n");
   else
     /* @@@ printf("  DIRECTION = %4.2f\n\n", c1 + (((x * 2) - a) / x)); */
-    printf("  DIRECTION = " + (c1 + (((x * 2) - a) / x)) + "\n");
+      printf("  DIRECTION = ", (c1 + (((x * 2) - a) / x)), "\n");
 
   /* @@@ printf("  DISTANCE = %4.2f\n", (x > a) ? x : a); */
-  printf("  DISTANCE = " + ((x > a) ? x : a) + "\n\n");
+  printf("  DISTANCE = ", ((x > a) ? x : a), "\n\n");
 }
 
 function ship_destroyed()
@@ -1509,7 +1510,7 @@ function ship_destroyed()
 
 function end_of_time()
 {
-  printf("It is stardate " + Math.floor(t) + ".\n");
+    printf("It is stardate ", Math.floor(t), ".\n");
 
   resign_commision();
 }
@@ -1517,7 +1518,7 @@ function end_of_time()
 function resign_commision()
 {
   printf("\n");
-  printf("There were " + k9 + " Klingon Battlecruisers left at the");
+  printf("There were ", k9, " Klingon Battlecruisers left at the");
   printf(" end of your mission.\n\n");
 
   end_of_game();
@@ -1529,7 +1530,7 @@ function won_game()
   printf("menacing the Federation has been destoyed.\n\n");
  
   if (t - t0 > 0)
-    printf("Your efficiency rating is " + (1000 * pow(k7 / (t - t0), 2)) + "\n");
+      printf("Your efficiency rating is ", (1000 * pow(k7 / (t - t0), 2)), "\n");
 
   end_of_game();
 }
@@ -1577,8 +1578,8 @@ function klingons_shoot()
           /* @@@ k[i][3] = k[i][3] / (3 + rnd()); */
           k[i][3] = Math.floor(k[i][3] / (3 + rnd()));
 
-          printf(h + " unit hit on Enterprise from sector ");
-          printf(k[i][1] +", " + k[i][2] + "\n");
+          printf(h, " unit hit on Enterprise from sector ");
+          printf(k[i][1], ", " + k[i][2], "\n");
 
           if (s <= 0)
           {
@@ -1586,7 +1587,7 @@ function klingons_shoot()
               ship_destroyed();
           }
           else {
-              printf("    <Shields down to " + s + " units>\n\n");
+              printf("    <Shields down to ", s, " units>\n\n");
 
               if (h >= 20)
               {
@@ -1605,7 +1606,7 @@ function klingons_shoot()
 
                       var sG2 = get_device_name(r1);
 
-                      printf("Damage Control reports '" + sG2 + "' damaged by hit\n\n");
+                      printf("Damage Control reports '", sG2, "' damaged by hit\n\n");
                   }
               }
           }
@@ -1668,7 +1669,7 @@ function repair_damage()
               printf("Damage Control report:\n");
               r1 = i;
               var sG2 = get_device_name(r1);
-              printf("    " + sG2 + " repair completed\n\n");
+              printf("    ", sG2, " repair completed\n\n");
             }
         }
     }
@@ -1682,13 +1683,13 @@ function repair_damage()
         {
           d[r1] = d[r1] - (rnd() * 5.0 + 1.0);
           printf("Damage Control report:\n");
-          printf("    " + get_device_name(r1) + " damaged\n\n");
+          printf("    ", get_device_name(r1), " damaged\n\n");
         }
       else
         {
           d[r1] = d[r1] + (rnd() * 3.0 + 1.0);
           printf("Damage Control report:\n");
-          printf("    " + get_device_name(r1) + " state of repair improved\n\n");
+          printf("    ", get_device_name(r1), " state of repair improved\n\n");
         }
     }
 }
@@ -1838,11 +1839,16 @@ function function_r()
 ** Utility functions written for compatibility with C version.
 ************************************************************************/
 
-/* Provide a 'printf' function */
-function printf(outstring) {
+/**
+Provide a 'printf' function
+todo: improve performance by using something better than appending
+*/
+function printf() {
+    var i, outstring = "";
+    for (i = 0; i < arguments.length; i++) {
+	outstring += arguments[i];
+    }
     output += outstring;
-//    document.getElementById('output_area').innerHTML = document.getElementById('output_area').innerHTML + outstring;
-//    document.getElementById('output_area').innerHTML = output + "Command: " + commandstring;
     display();
 }
 
@@ -1891,7 +1897,7 @@ function sqrt(value)
 function debug(arg1)
 {
     if (debug_on) {
-        printf(arg1 + "\n");
+        printf(arg1, "\n");
     }
 }
 
@@ -1947,14 +1953,14 @@ function debug_sQ()
         var index;
         printf("  -1--2--3--4--5--6--7--8-\n");
         for (y = 0; y < 8; y++) {
-            printf(y + ":");
+            printf(y, ":");
             for (x = 0; x < 8; x++) {
                 index = y * 24 + x * 3;
                 printf(sQ[index]);
                 printf(sQ[index + 1]);
                 printf(sQ[index + 2]);
             }
-            printf(":" + index + "\n");
+            printf(":", index, "\n");
         }
     }
 }
@@ -1992,7 +1998,7 @@ function usercommand(input_id)
     if (document.getElementById(input_id)) {
         var input = document.getElementById(input_id).value;
         document.getElementById(input_id).value = "";
-        printf("<span class='command_history'>" + prompt_string + " " + input + "</span>");
+        printf("<span class='command_history'>", prompt_string, " ", input, "</span>");
         commandstring = "";
     }
 
@@ -2008,7 +2014,7 @@ function usercommand(input_id)
 
 function usercommand2(input)
 {
-    printf("<span class='command_history'>" + prompt_string + " " + input + "</span>");
+    printf("<span class='command_history'>", prompt_string, " ", input, "</span>");
     commandstring = "";
 
     if (typeof(usercommandhandler) === "function") {
@@ -2062,5 +2068,6 @@ function display()
         output +
         "<span class='command_echo'>" + prompt_string + " " + commandstring + "</span>" +
         "<span class='command_cursor'>_</span>";
+    window.scrollTo(0, document.body.clientHeight);
 }
 
